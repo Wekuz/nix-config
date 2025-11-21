@@ -1,0 +1,2 @@
+- distributed build (https://nix.dev/tutorials/nixos/distributed-builds-setup)
+- setup script (https://github.com/jakeb-grant/nix-configs/blob/main/setup.sh)
