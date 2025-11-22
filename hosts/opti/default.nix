@@ -37,7 +37,6 @@
   networking = {
     hostName = "opti";
     networkmanager.enable = true;
-    useDHCP = true;
     firewall.allowedTCPPorts = [ 22 ];
   };
 
