@@ -58,6 +58,7 @@
 
   environment.systemPackages = with pkgs; [
     git
+    nvim
     btop
     ncdu
     tmux
