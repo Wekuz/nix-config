@@ -12,7 +12,7 @@
       dates = "weekly";
       options = "--delete-older-than 14d";
     };
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [ "nix-command" "flakes" ];
 
     extraOptions = ''
       min-free = 512000000
