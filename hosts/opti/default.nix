@@ -37,7 +37,8 @@
   networking = {
     hostName = "opti";
     networkmanager.enable = true;
-    firewall.allowedTCPPorts = [ 22 ];
+    nftables.enable = true;
+    firewall.allowedTCPPorts = [ 22 80 443 ];
   };
 
   services.openssh = {
@@ -52,6 +53,8 @@
       autoPrune = {
         enable = true;
         dates = "weekly";
+        randomizedDelaySec = "30min";
+        flags = [ "--all" "--volumes" ];
       };
     };
   };
