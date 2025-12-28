@@ -86,7 +86,6 @@
   users.users.wekuz = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "docker" ];
-    packages = with pkgs; [ ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBs3aPxyJpVGytuVSO3va2WybKNFMR241o8DCJQbBEWV"
     ];
