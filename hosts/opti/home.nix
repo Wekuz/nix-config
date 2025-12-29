@@ -36,9 +36,13 @@
 
   programs.git = {
     enable = true;
-    userName = "Wekuz";
-    userEmail = "wekuz@duck.com";
-    extraConfig = { init.defaultBranch = "main"; };
+    settings = {
+      user = {
+        name = "Wekuz";
+        email = "wekuz@duck.com";
+      };
+      init.defaultBranch = "main";
+    };
   };
 
   programs.zsh = { enable = true; };
