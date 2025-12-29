@@ -59,28 +59,6 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    git
-    neovim
-    btop
-    ncdu
-    tmux
-    wget
-    iperf3
-    dnsutils
-    file
-    which
-    zstd
-    zip
-    xz
-    unzip
-    ripgrep
-    smartmontools
-    lm_sensors
-    ethtool
-    fastfetch
-  ];
-
   environment.variables.EDITOR = "nvim";
 
   users.users.wekuz = {
