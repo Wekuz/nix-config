@@ -1,5 +1,5 @@
 {
-  inputs,
+  config,
   pkgs,
   ...
 }:
@@ -74,7 +74,9 @@
     age.sshKeyPaths = [ ];
     gnupg.sshKeyPaths = [ ];
 
-    secrets = { };
+    secrets = {
+      "vaultwarden.env" = { };
+    };
   };
 
   services = {
@@ -82,6 +84,19 @@
       enable = true;
       settings.PasswordAuthentication = false;
       settings.PermitRootLogin = "no";
+    };
+    vaultwarden = {
+      enable = true;
+      environmentFile = config.sops.secrets."vaultwarden.env".path;
+      config = {
+        WEBSOCKET_ENABLED = true;
+        SIGNUPS_ALLOWED = false;
+        SIGNUPS_VERIFY = false;
+        INVITATIONS_ALLOWED = false;
+        SHOW_PASSWORD_HINT = false;
+        DATA_FOLDER = "/var/lib/vaultwarden/data";
+        LOG_LEVEL = "warn";
+      };
     };
   };
 
