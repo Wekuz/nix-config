@@ -13,11 +13,16 @@
   nix = {
     package = pkgs.nixVersions.stable;
 
-    optimise.automatic = true;
+    optimise = {
+      automatic = true;
+      dates = "Mon *-*-* 03:00:00";
+      randomizedDelaySec = "10m";
+    };
     gc = {
       automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 2w";
+      dates = "Mon *-*-* 03:00:00";
+      randomizedDelaySec = "10m";
+      options = "--delete-older-than 7d";
     };
     settings.experimental-features = [
       "nix-command"
@@ -31,7 +36,10 @@
   };
 
   boot.loader = {
-    systemd-boot.enable = true;
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 8;
+    };
     efi.canTouchEfiVariables = true;
     timeout = 1;
   };
