@@ -59,26 +59,21 @@
     ];
   };
 
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/var/lib/sops-nix/key.txt";
+    age.sshKeyPaths = [ ];
+    gnupg.sshKeyPaths = [ ];
+
+    secrets = { };
+  };
+
   services = {
     openssh = {
       enable = true;
       settings.PasswordAuthentication = false;
       settings.PermitRootLogin = "no";
-    };
-  };
-
-  virtualisation = {
-    docker = {
-      enable = true;
-      autoPrune = {
-        enable = true;
-        dates = "weekly";
-        randomizedDelaySec = "30min";
-        flags = [
-          "--all"
-          "--volumes"
-        ];
-      };
     };
   };
 
