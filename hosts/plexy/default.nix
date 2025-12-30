@@ -36,16 +36,18 @@
   time.timeZone = "Europe/Tallinn";
 
   networking = {
-    hostName = "opti";
+    hostName = "plexy";
     networkmanager.enable = true;
     nftables.enable = true;
     firewall.allowedTCPPorts = [ 22 80 443 ];
   };
 
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.PermitRootLogin = "no";
+  services = {
+    openssh = {
+      enable = true;
+      settings.PasswordAuthentication = false;
+      settings.PermitRootLogin = "no";
+    };
   };
 
   virtualisation = {

@@ -1,5 +1,5 @@
 {
-  description = "Opti NixOS Flake";
+  description = "Wekuz's NixOS config";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
@@ -17,15 +17,15 @@
 
   outputs = { nixpkgs, home-manager, disko, ... }: {
     nixosConfigurations = {
-      opti = nixpkgs.lib.nixosSystem {
+      plexy = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./hosts/opti
+          ./hosts/plexy
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.wekuz = import ./hosts/opti/home.nix;
+            home-manager.users.wekuz = import ./hosts/plexy/home.nix;
           }
           disko.nixosModules.disko
         ];
