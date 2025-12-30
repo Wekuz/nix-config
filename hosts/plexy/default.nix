@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  inputs,
+  pkgs,
+  ...
+}:
 
 {
-  imports = [ ./hardware-configuration.nix ./disko-config.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./disko-config.nix
+  ];
 
   nix = {
     package = pkgs.nixVersions.stable;
@@ -12,7 +19,10 @@
       dates = "weekly";
       options = "--delete-older-than 2w";
     };
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     extraOptions = ''
       min-free = 512000000
@@ -30,7 +40,10 @@
 
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [ intel-media-driver intel-vaapi-driver ];
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver
+    ];
   };
 
   time.timeZone = "Europe/Tallinn";
@@ -39,7 +52,11 @@
     hostName = "plexy";
     networkmanager.enable = true;
     nftables.enable = true;
-    firewall.allowedTCPPorts = [ 22 80 443 ];
+    firewall.allowedTCPPorts = [
+      22
+      80
+      443
+    ];
   };
 
   services = {
@@ -57,7 +74,10 @@
         enable = true;
         dates = "weekly";
         randomizedDelaySec = "30min";
-        flags = [ "--all" "--volumes" ];
+        flags = [
+          "--all"
+          "--volumes"
+        ];
       };
     };
   };
@@ -66,7 +86,11 @@
 
   users.users.wekuz = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "docker" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "docker"
+    ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBs3aPxyJpVGytuVSO3va2WybKNFMR241o8DCJQbBEWV"
     ];

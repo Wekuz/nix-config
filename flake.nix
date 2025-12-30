@@ -15,21 +15,28 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, disko, ... }: {
-    nixosConfigurations = {
-      plexy = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/plexy
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.wekuz = import ./hosts/plexy/home.nix;
-          }
-          disko.nixosModules.disko
-        ];
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      disko,
+      ...
+    }:
+    {
+      nixosConfigurations = {
+        plexy = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/plexy
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.wekuz = import ./hosts/plexy/home.nix;
+            }
+            disko.nixosModules.disko
+          ];
+        };
       };
     };
-  };
 }
