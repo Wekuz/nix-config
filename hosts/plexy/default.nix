@@ -64,6 +64,7 @@
       22
       80
       443
+      5201 # iperf3
     ];
   };
 
@@ -84,6 +85,9 @@
       enable = true;
       settings.PasswordAuthentication = false;
       settings.PermitRootLogin = "no";
+    };
+    iperf3 = {
+      enable = true;
     };
     vaultwarden = {
       enable = true;
