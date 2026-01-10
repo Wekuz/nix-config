@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   home.username = "wekuz";
@@ -10,6 +10,7 @@
     # Utilities
     neovim
     tmux
+    gnupg
     zip
     xz
     unzip
@@ -33,6 +34,16 @@
     ldns
     ethtool
   ];
+
+  programs.gpg = {
+    enable = true;
+    publicKeys = [
+      {
+        source = "${inputs.gpgKey}";
+        trust = 5;
+      }
+    ];
+  };
 
   programs.git = {
     enable = true;

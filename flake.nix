@@ -18,6 +18,11 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    gpgKey = {
+      url = "https://keys.openpgp.org/vks/v1/by-email/wekuz%40duck.com";
+      flake = false;
+    };
   };
 
   outputs =
@@ -27,7 +32,7 @@
       sops-nix,
       disko,
       ...
-    }:
+    }@inputs:
     {
       nixosConfigurations = {
         plexy = nixpkgs.lib.nixosSystem {
@@ -38,6 +43,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
               home-manager.users.wekuz = import ./hosts/plexy/home.nix;
             }
             sops-nix.nixosModules.sops
