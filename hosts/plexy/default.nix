@@ -65,6 +65,7 @@
       80
       443
       5201 # iperf3
+      15835 # Glance
     ];
   };
 
@@ -101,6 +102,10 @@
         DATA_FOLDER = "/var/lib/vaultwarden/data";
         LOG_LEVEL = "warn";
       };
+    };
+    glance = {
+      enable = true;
+      settings = import ./glance.nix;
     };
   };
 
