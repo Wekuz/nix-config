@@ -5,7 +5,7 @@
   home.homeDirectory = "/home/wekuz";
 
   home.packages = with pkgs; [
-    neofetch
+    fastfetch
 
     # Utilities
     neovim
