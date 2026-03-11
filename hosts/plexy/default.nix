@@ -66,6 +66,8 @@
       443
       5201 # iperf3
       15835 # Glance
+      14789 # LibreBooking
+      14788 # Drupal
     ];
   };
 
@@ -109,6 +111,23 @@
       enable = true;
       settings = import ./glance.nix;
     };
+    drupal = {
+      enable = true;
+      sites = {
+        "localhost" = {
+          enable = true;
+          extraConfig = ''
+            $base_url="http://192.168.1.210:14788";
+          '';
+        };
+      };
+    };
+    nginx.virtualHosts."localhost".listen = [
+      {
+        addr = "0.0.0.0";
+        port = 14788;
+      }
+    ];
   };
 
   environment.variables.EDITOR = "nvim";
