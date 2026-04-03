@@ -147,5 +147,9 @@
     ];
   };
 
+  systemd.tmpfiles.rules = [
+    "d /storage 0777 root root -"
+  ];
+
   system.stateVersion = "25.11";
 }
