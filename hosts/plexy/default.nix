@@ -104,7 +104,7 @@
           uid = "wekuz";
         };
         sections = {
-          storage = {
+          media = {
             path = "/storage/media";
             comment = "Media storage";
             "read only" = false;
