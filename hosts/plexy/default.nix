@@ -64,6 +64,7 @@
       22
       80
       443
+      873 # rsyncd
       5201 # iperf3
       15835 # Glance
     ];
@@ -78,6 +79,7 @@
 
     secrets = {
       "vaultwarden.env" = { };
+      "rsyncd.secrets" = { };
     };
   };
 
@@ -91,6 +93,26 @@
     };
     iperf3 = {
       enable = true;
+    };
+    rsyncd = {
+      enable = true;
+      settings = {
+        globalSection = {
+          address = "0.0.0.0";
+          gid = "users";
+          "max connections" = 5;
+          uid = "wekuz";
+        };
+        sections = {
+          storage = {
+            path = "/storage/media";
+            comment = "Media storage";
+            "read only" = false;
+            "auth users" = "wekuz";
+            "secrets file" = config.sops.secrets."rsyncd.secrets".path;
+          };
+        };
+      };
     };
     vaultwarden = {
       enable = true;
