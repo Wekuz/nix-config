@@ -66,6 +66,7 @@
       443
       873 # rsyncd
       5201 # iperf3
+      8096 # Jellyfin
       15835 # Glance
     ];
   };
@@ -84,6 +85,12 @@
   };
 
   virtualisation.docker.enable = true;
+
+  environment.systemPackages = [
+    pkgs.jellyfin
+    pkgs.jellyfin-web
+    pkgs.jellyfin-ffmpeg
+  ];
 
   services = {
     openssh = {
@@ -130,6 +137,9 @@
     glance = {
       enable = true;
       settings = import ./glance.nix;
+    };
+    jellyfin = {
+      enable = true;
     };
   };
 
