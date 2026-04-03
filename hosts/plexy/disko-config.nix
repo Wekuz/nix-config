@@ -54,6 +54,33 @@
           };
         };
       };
+      storagedisk = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-HGST_HUS722T2TALA604_WMC6N0P31NKZ";
+        content = {
+          type = "gpt";
+          partitions = {
+            primary = {
+              size = "100%";
+              content = {
+                type = "btrfs";
+                extraArgs = [ "-f" ]; # Override existing partition
+                subvolumes = {
+                  "@storage" = {
+                    mountOptions = [
+                      "compress=zstd"
+                      "noatime"
+                    ];
+                    mountpoint = "/storage";
+                  };
+                };
+
+                mountpoint = "/part-storage";
+              };
+            };
+          };
+        };
+      };
     };
   };
 }
