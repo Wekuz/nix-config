@@ -41,7 +41,7 @@
       configurationLimit = 8;
     };
     efi.canTouchEfiVariables = true;
-    timeout = 1;
+    timeout = 0;
   };
 
   nixpkgs.hostPlatform = "x86_64-linux";
