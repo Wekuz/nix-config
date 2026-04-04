@@ -145,20 +145,34 @@
 
   environment.variables.EDITOR = "nvim";
 
-  users.users.wekuz = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "docker"
-    ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBs3aPxyJpVGytuVSO3va2WybKNFMR241o8DCJQbBEWV"
-    ];
+  users = {
+    groups = {
+      media = { };
+    };
+    users = {
+      wekuz = {
+        isNormalUser = true;
+        extraGroups = [
+          "wheel"
+          "networkmanager"
+          "docker"
+          "media"
+        ];
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBs3aPxyJpVGytuVSO3va2WybKNFMR241o8DCJQbBEWV"
+        ];
+      };
+      jellyfin = {
+        extraGroups = [
+          "media"
+        ];
+      };
+    };
   };
 
   systemd.tmpfiles.rules = [
-    "d /storage 0777 root root -"
+    "d /storage 0755 root root -"
+    "d /storage/media 2775 wekuz media -"
   ];
 
   system.stateVersion = "25.11";
