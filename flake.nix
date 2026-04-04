@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -28,6 +29,7 @@
   outputs =
     {
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       sops-nix,
       disko,
@@ -39,6 +41,17 @@
           system = "x86_64-linux";
           modules = [
             ./hosts/plexy
+            {
+              nixpkgs = {
+                overlays = [
+                  (final: prev: {
+                    unstable = import nixpkgs-unstable {
+                      system = final.system;
+                    };
+                  })
+                ];
+              };
+            }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
