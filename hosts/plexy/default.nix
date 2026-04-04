@@ -66,6 +66,7 @@
       80
       443
       873 # rsyncd
+      5055 # Seerr
       5201 # iperf3
       8096 # Jellyfin
       15835 # Glance
@@ -141,6 +142,10 @@
     };
     jellyfin = {
       enable = true;
+    };
+    seerr = {
+      enable = true;
+      package = pkgs.unstable.seerr;
     };
   };
 

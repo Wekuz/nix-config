@@ -52,6 +52,7 @@
                 ];
               };
             }
+            (import "${nixpkgs-unstable}/nixos/modules/services/misc/seerr.nix")
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
