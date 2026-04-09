@@ -52,6 +52,9 @@
                 ];
               };
             }
+            {
+              disabledModules = [ "services/misc/jellyseerr.nix" ];
+            }
             (import "${nixpkgs-unstable}/nixos/modules/services/misc/seerr.nix")
             home-manager.nixosModules.home-manager
             {
