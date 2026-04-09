@@ -40,7 +40,6 @@
         plexy = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./hosts/plexy
             {
               nixpkgs = {
                 overlays = [
@@ -57,6 +56,7 @@
               disabledModules = [ "services/misc/jellyseerr.nix" ];
             }
             (import "${nixpkgs-unstable}/nixos/modules/services/misc/seerr.nix")
+            ./hosts/plexy
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
