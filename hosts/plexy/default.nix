@@ -70,6 +70,8 @@
       5201 # iperf3
       8096 # Jellyfin
       15835 # Glance
+      15836 # qBittorrent (Web UI)
+      17650 # qBittorrent (torrent)
     ];
   };
 
@@ -120,6 +122,13 @@
             "auth users" = "wekuz";
             "secrets file" = config.sops.secrets."rsyncd.secrets".path;
           };
+          torrents = {
+            path = "/storage/torrents";
+            comment = "Torrents storage";
+            "read only" = false;
+            "auth users" = "wekuz";
+            "secrets file" = config.sops.secrets."rsyncd.secrets".path;
+          };
         };
       };
     };
@@ -147,6 +156,81 @@
       enable = true;
       package = pkgs.unstable.seerr;
     };
+    qbittorrent = {
+      enable = true;
+      torrentingPort = 17650;
+      webuiPort = 15836;
+      serverConfig = {
+        Application.FileLogger = {
+          Enabled = true;
+          Path = "/var/log/qBittorrent";
+          Backup = true;
+          MaxSizeBytes = 65536;
+          DeleteOld = true;
+          Age = 14;
+          AgeType = 0;
+        };
+        BitTorrent.Session = {
+          AddTorrentStopped = false;
+          Preallocation = true;
+          AddExtensionToIncompleteFiles = false;
+          DisableAutoTMMByDefault = false;
+
+          MaxConnections = 1000;
+          MaxConnectionsPerTorrent = 200;
+          MaxUploads = 64;
+          MaxUploadsPerTorrent = 26;
+
+          GlobalDLSpeedLimit = 6000;
+          GlobalUPSpeedLimit = 6000;
+          AlternativeGlobalDLSpeedLimit = 0;
+          AlternativeGlobalUPSpeedLimit = 0;
+          BandwidthSchedulerEnabled = true;
+          DefaultSavePath = "/storage/torrents";
+
+          MaxActiveCheckingTorrents = 1;
+
+          QueueingSystemEnabled = true;
+          MaxActiveDownloads = 3;
+          MaxActiveUploads = 10;
+          MaxActiveTorrents = 200;
+          IgnoreSlowTorrentsForQueueing = true;
+          SlowTorrentsDownloadRate = 500;
+          SlowTorrentsUploadRate = 100;
+          SlowTorrentsInactivityTimer = 60;
+
+          GlobalMaxRatio = -1;
+          GlobalMaxSeedingMinutes = -1;
+          GlobalMaxInactiveSeedingMinutes = -1;
+          ShareLimitAction = "Stop";
+
+          Interface = "";
+          InterfaceAddress = "";
+          InterfaceName = "";
+        };
+        Network = {
+          PortForwardingEnabled = false;
+        };
+        Preferences = {
+          General = {
+            Locale = "en";
+            StatusbarExternalIPDisplayed = true;
+          };
+          Scheduler = {
+            end_time = "@Variant(\\0\\0\\0\\xf\\x1\\x65\\xe@)"; # 02:00
+            start_time = "@Variant(\\0\\0\\0\\xf\\0m\\xdd\\0)"; # 06:30
+          };
+          WebUI = {
+            Address = "*";
+            Username = "admin";
+            Password_PBKDF2 = "@ByteArray(IM7ih6pLNXBv6it48lI1Lg==:VyczL0q0C89RNfXkzcvdZemfXjdG53xBSY66gqIl56dA0OcrvvxOQdW8jOzvY3lFjR+WDBG3Q/ejsG4w8O5RRA==)";
+            LocalHostAuth = false;
+          };
+        };
+        Core.AutoDeleteAddedTorrentFile = "never";
+        LegalNotice.Accepted = true;
+      };
+    };
   };
 
   environment.variables.EDITOR = "nvim";
@@ -173,12 +257,18 @@
           "media"
         ];
       };
+      qbittorrent = {
+        extraGroups = [
+          "media"
+        ];
+      };
     };
   };
 
   systemd.tmpfiles.rules = [
     "d /storage 0755 root root -"
     "d /storage/media 2775 wekuz media -"
+    "d /storage/torrents 2775 wekuz media -"
   ];
 
   system.stateVersion = "25.11";
