@@ -71,6 +71,7 @@
       8096 # Jellyfin
       15835 # Glance
       15836 # qBittorrent (Web UI)
+      15837 # Radarr
       17650 # qBittorrent (torrent)
     ];
   };
@@ -231,6 +232,12 @@
         LegalNotice.Accepted = true;
       };
     };
+    radarr = {
+      enable = true;
+      settings = {
+        server.port = 15837;
+      };
+    };
   };
 
   environment.variables.EDITOR = "nvim";
@@ -262,12 +269,18 @@
           "media"
         ];
       };
+      radarr = {
+        extraGroups = [
+          "media"
+        ];
+      };
     };
   };
 
   systemd.tmpfiles.rules = [
     "d /storage 0755 root root -"
     "d /storage/media 2775 wekuz media -"
+    "d /storage/media/movies 2775 wekuz media -"
     "d /storage/torrents 2775 wekuz media -"
   ];
 
