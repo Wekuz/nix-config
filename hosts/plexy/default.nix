@@ -252,6 +252,10 @@
         server.port = 15839;
       };
     };
+    flaresolverr = {
+      enable = true;
+      port = 15840;
+    };
   };
 
   environment.variables.EDITOR = "nvim";
