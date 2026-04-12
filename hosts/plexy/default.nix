@@ -73,6 +73,7 @@
       15836 # qBittorrent (Web UI)
       15837 # Radarr
       15838 # Sonarr
+      15839 # Prowlarr
       17650 # qBittorrent (torrent)
     ];
   };
@@ -243,6 +244,12 @@
       enable = true;
       settings = {
         server.port = 15838;
+      };
+    };
+    prowlarr = {
+      enable = true;
+      settings = {
+        server.port = 15839;
       };
     };
   };
