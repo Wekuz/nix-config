@@ -72,6 +72,7 @@
       15835 # Glance
       15836 # qBittorrent (Web UI)
       15837 # Radarr
+      15838 # Sonarr
       17650 # qBittorrent (torrent)
     ];
   };
@@ -238,6 +239,12 @@
         server.port = 15837;
       };
     };
+    sonarr = {
+      enable = true;
+      settings = {
+        server.port = 15838;
+      };
+    };
   };
 
   environment.variables.EDITOR = "nvim";
@@ -274,6 +281,11 @@
           "media"
         ];
       };
+      sonarr = {
+        extraGroups = [
+          "media"
+        ];
+      };
     };
   };
 
@@ -281,6 +293,7 @@
     "d /storage 0755 root root -"
     "d /storage/media 2775 wekuz media -"
     "d /storage/media/movies 2775 wekuz media -"
+    "d /storage/media/tv 2775 wekuz media -"
     "d /storage/torrents 2775 wekuz media -"
   ];
 
