@@ -55,6 +55,14 @@
     ];
   };
 
+  security.wrappers.btop = {
+    enable = true;
+    owner = "root";
+    group = "root";
+    source = "${pkgs.btop}/bin/btop";
+    capabilities = "cap_perfmon=ep";
+  };
+
   time.timeZone = "Europe/Tallinn";
 
   networking = {
