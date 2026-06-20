@@ -165,7 +165,6 @@
     };
     seerr = {
       enable = true;
-      package = pkgs.unstable.seerr;
     };
     qbittorrent = {
       enable = true;

@@ -2,11 +2,10 @@
   description = "Wekuz's NixOS config";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -29,7 +28,6 @@
   outputs =
     {
       nixpkgs,
-      nixpkgs-unstable,
       home-manager,
       sops-nix,
       disko,
@@ -40,22 +38,6 @@
         plexy = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            {
-              nixpkgs = {
-                overlays = [
-                  (final: prev: {
-                    unstable = import nixpkgs-unstable {
-                      inherit (final) config;
-                      inherit (final.stdenv.hostPlatform) system;
-                    };
-                  })
-                ];
-              };
-            }
-            {
-              disabledModules = [ "services/misc/jellyseerr.nix" ];
-            }
-            (import "${nixpkgs-unstable}/nixos/modules/services/misc/seerr.nix")
             ./hosts/plexy
             home-manager.nixosModules.home-manager
             {
