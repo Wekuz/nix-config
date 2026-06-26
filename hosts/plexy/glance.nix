@@ -2,7 +2,6 @@
   server = {
     host = "0.0.0.0";
     port = 15835;
-    assets-path = "/var/lib/glance/assets";
   };
   theme = {
     light = false;

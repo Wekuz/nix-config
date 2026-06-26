@@ -96,6 +96,7 @@
     secrets = {
       "vaultwarden.env" = { };
       "rsyncd.secrets" = { };
+      "caddy.env" = { };
     };
   };
 
@@ -141,6 +142,81 @@
             "secrets file" = config.sops.secrets."rsyncd.secrets".path;
           };
         };
+      };
+    };
+    caddy = {
+      enable = true;
+      package = pkgs.caddy.withPlugins {
+        plugins = [
+          "github.com/caddy-dns/cloudflare@master"
+          "github.com/WeidiDeng/caddy-cloudflare-ip@main"
+          "github.com/hslatman/caddy-crowdsec-bouncer/http@main"
+          "github.com/hslatman/caddy-crowdsec-bouncer/appsec@main"
+        ];
+        hash = "sha256-GXigWLkry+hZ6XLkG8lqFn83NsWTv5CeqACK/9FM780=";
+      };
+      environmentFile = config.sops.secrets."caddy.env".path;
+      logFormat = ''
+        output file /var/log/caddy/access.log
+      '';
+      globalConfig = ''
+        grace_period 10s
+        servers {
+            trusted_proxies cloudflare {
+                interval 1h
+                timeout 20s
+            }
+            trusted_proxies_strict
+            client_ip_headers Cf-Connecting-Ip X-Forwarded-For
+        }
+        crowdsec {
+            api_url http://host.docker.internal:8080
+            api_key {$CROWDSEC_APIKEY}
+            ticker_interval 10s
+        }
+      '';
+      extraConfig = ''
+        (proxy-route) {
+            route {
+                crowdsec
+                reverse_proxy {args[0]} {
+                    # Strip intermediary proxies
+                    header_up X-Forwarded-For {client_ip}
+                    header_up X-Real-IP {client_ip}
+                }
+            }
+        }
+      '';
+      virtualHosts = {
+        "*.wekuz.localplayer.dev".extraConfig = ''
+          tls {
+              dns cloudflare {$CF_APIKEY}
+          }
+        '';
+
+        "glance.wekuz.localplayer.dev".extraConfig = ''
+          import proxy-route http://localhost:15835
+        '';
+
+        "vw.wekuz.localplayer.dev".extraConfig = ''
+          import proxy-route http://192.168.1.111:15830
+        '';
+
+        "lw.wekuz.localplayer.dev".extraConfig = ''
+          import proxy-route http://192.168.1.111:15834
+        '';
+
+        "git.wekuz.localplayer.dev".extraConfig = ''
+          import proxy-route http://192.168.1.111:15836
+        '';
+
+        "tv.wekuz.localplayer.dev".extraConfig = ''
+          import proxy-route http://localhost:8096
+        '';
+
+        "seerr.wekuz.localplayer.dev".extraConfig = ''
+          import proxy-route http://localhost:5055
+        '';
       };
     };
     vaultwarden = {
