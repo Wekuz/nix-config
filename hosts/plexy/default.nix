@@ -160,6 +160,15 @@
       enable = true;
       settings = import ./glance.nix;
     };
+    forgejo = {
+      enable = true;
+      # TODO: port old config
+      # https://codeberg.org/forgejo/forgejo/src/branch/forgejo/release-notes-published/11.0.0.md
+      # https://codeberg.org/forgejo/forgejo/src/branch/forgejo/release-notes-published/12.0.0.md
+      # https://codeberg.org/forgejo/forgejo/src/branch/forgejo/release-notes-published/13.0.0.md
+      # https://codeberg.org/forgejo/forgejo/src/branch/forgejo/release-notes-published/14.0.0.md
+      # https://codeberg.org/forgejo/forgejo/src/branch/forgejo/release-notes-published/15.0.0.md
+    };
     jellyfin = {
       enable = true;
     };
